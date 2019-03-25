@@ -13,3 +13,13 @@ int MTL::ArrayList<T>::length()
 	return this.len;
 }
 
+template <typename T>
+void MTL::ArrayList<T>::set(int idx, T value)
+{
+	if(this.len > idx)
+	{
+		this.data[idx] = value;
+	}
+	else throw "Error";
+}
+

@@ -10,7 +10,7 @@ namespace MTL
 	{
 	public:
 		virtual int length();
-		virtual bool set(int idx, T value);
+		virtual void set(int idx, T value);
 		virtual bool get(int idx, T *value);
 	};
 }
