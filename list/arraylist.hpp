@@ -9,7 +9,8 @@ namespace MTL
 	class ArrayList : public List<T>
 	{
 	private:
-		~ArrayList();
+		int len;
+		T *data;
 	public:
 		ArrayList(int len);
 	};
