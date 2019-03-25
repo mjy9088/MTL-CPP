@@ -13,6 +13,7 @@ namespace MTL
 		T *data;
 	public:
 		ArrayList(int len);
+		~ArrayList();
 		int length();
 		void set(int idx, T value);
 		virtual T get(int idx);

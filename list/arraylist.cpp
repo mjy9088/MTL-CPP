@@ -33,3 +33,9 @@ T MTL::ArrayList<T>::get(int idx)
 	else throw "Error";
 }
 
+template <typename T>
+MTL::ArrayList<T>::~ArrayList()
+{
+	delete [] this.data;
+}
+
