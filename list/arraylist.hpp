@@ -8,6 +8,8 @@ namespace MTL
 	template<typename T>
 	class ArrayList : public List<T>
 	{
+	private:
+		~ArrayList();
 	public:
 		ArrayList(int len);
 	};
