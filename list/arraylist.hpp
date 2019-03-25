@@ -13,6 +13,7 @@ namespace MTL
 		T *data;
 	public:
 		ArrayList(int len);
+		int length();
 	};
 }
 

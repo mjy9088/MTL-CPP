@@ -7,3 +7,9 @@ MTL::ArrayList<T>::ArrayList(int len)
 	this.data = new T[len];
 }
 
+template <typename T>
+int MTL::ArrayList<T>::length()
+{
+	return this.len;
+}
+
