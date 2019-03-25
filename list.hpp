@@ -5,12 +5,13 @@
 
 namespace MTL
 {
+	template<typename T>
 	class List
 	{
 	public:
 		virtual int length();
-		virtual bool set(int idx, void *value);
-		virtual bool get(int idx, void **value);
+		virtual bool set(int idx, T value);
+		virtual bool get(int idx, T *value);
 	};
 }
 
