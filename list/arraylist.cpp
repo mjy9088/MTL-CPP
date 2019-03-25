@@ -23,3 +23,13 @@ void MTL::ArrayList<T>::set(int idx, T value)
 	else throw "Error";
 }
 
+template <typename T>
+T MTL::ArrayList<T>::get(int idx)
+{
+	if(this.len > idx)
+	{
+		return this.data[idx];
+	}
+	else throw "Error";
+}
+

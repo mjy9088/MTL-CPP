@@ -15,6 +15,7 @@ namespace MTL
 		ArrayList(int len);
 		int length();
 		void set(int idx, T value);
+		virtual T get(int idx);
 	};
 }
 
