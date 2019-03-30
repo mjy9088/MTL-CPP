@@ -67,6 +67,13 @@ T MTL::LinkedList<T>::get(int idx)
 template <typename T>
 MTL::LinkedList<T>::~LinkedList()
 {
-	// TODO: delete it;
+	MTL::LinkedList<T>::Node tmp = this.head, temp;
+	while(tmp->next)
+	{
+		temp = tmp;
+		delete tmp;
+		tmp = temp->next;
+	}
+	delete tmp;
 }
 
