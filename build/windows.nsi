@@ -44,7 +44,7 @@ Section "MTL program files (required)" SectionMain
   WriteUninstaller "$INSTDIR\uninstall.exe"
   WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\MTL-CPP" "DisplayName" "MTL-CPP"
   WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\MTL-CPP" "UninstallString" "$INSTDIR\uninstall.exe"
-  WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\MTL-CPP" "DisplayVersion" "${MTL_VERSION}"
+  WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\MTL-CPP" "DisplayVersion" "0.0.1"
   WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\MTL-CPP" "DisplayIcon" "$INSTDIR\MTL.exe"
   WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\MTL-CPP" "Publisher" "mjy9088"
   File "favicon.ico"
@@ -57,3 +57,31 @@ Section "MTL original source"
   SetOutPath $INSTDIR
   File /r ..\original
 SectionEnd
+
+SubSection "Associate MTL files to MTL-CPP" SectionAssocs
+
+ Section "Associate .mtl-cpp files to MTL-CPP"
+  SectionIn 1
+  StrCpy $0 ".mtl-cpp"
+  Call BackupAssoc
+  WriteRegStr HKCR ".mtl-cpp" "" "MTL-CPP"
+  WriteRegStr HKCR "MTL-CPP" "" "MTP-CPP Source File"
+ SectionEnd
+
+SubSectionEnd
+
+UninstallText "This program will uninstall MTL-CPP, continue?"
+ShowUninstDetails show
+
+Section Uninstall
+SectionEnd
+
+Function BackupAssoc
+  ReadRegStr $1 HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\MTL-CPP\Backup" "$0"
+  StrCmp $1 "" 0 no_assoc
+  ReadRegStr $1 HKCR "$0" ""
+  StrCmp $1 "MTL-CPP$0" no_assoc
+  StrCmp $1 "" no_assoc
+    WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\MTL-CPP\Backup" "$0" "$1"
+  no_assoc:
+FunctionEnd
