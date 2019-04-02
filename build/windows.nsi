@@ -1,7 +1,10 @@
 !include "MUI2.nsh"
+!include "x64.nsh"
+
+Unicode true
 
 Name "MTL-CPP installer"
-OutFile output\installer.exe
+OutFile "output\x64.exe"
 Caption "MTL-CPP installer"
 ; LicenseData "LICENSE.txt"
 InstallDir $PROGRAMFILES\MTL\cpp
@@ -21,14 +24,25 @@ InstType "Minimal"
 
 RequestExecutionLevel admin
 
+!define ProductVersion "0.0.1"
+
 !define MUI_ICON "favicon.ico"
 !define MUI_UNICON "favicon.ico"
 !define MUI_ABORTWARNING
 !define MUI_LANGDLL_ALLLANGUAGES
-!define MUI_FINISHPAGE_RUN "$INSTDIR\mtl.exe"
+!define MUI_FINISHPAGE_RUN "$INSTDIR\MTL.exe"
+!define MUI_FINISHPAGE_RUN_CHECKED
+!define MUI_FINISHPAGE_RUN_TEXT "Run MTL-CPP"
 !define MUI_FINISHPAGE_NOREBOOTSUPPORT
 !define MUI_COMPONENTSPAGE_SMALLDESC
 
+Function finishpageaction
+  ExecWait 'notepad $INSTDIR\README.txt'
+FunctionEnd
+!define MUI_FINISHPAGE_SHOWREADME
+!define MUI_FINISHPAGE_SHOWREADME_CHECKED
+!define MUI_FINISHPAGE_SHOWREADME_TEXT "ReadMe"
+!define MUI_FINISHPAGE_SHOWREADME_FUNCTION finishpageaction
 ;!insertmacro MUI_PAGE_LICENSE "LICENSE.txt"
 !insertmacro MUI_PAGE_COMPONENTS
 !insertmacro MUI_PAGE_DIRECTORY
