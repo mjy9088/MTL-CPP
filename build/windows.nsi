@@ -15,7 +15,9 @@ SetDatablockOptimize on
 SetOverwrite try
 XPStyle on
 
+InstType "Recommended"
 InstType "Full"
+InstType "Minimal"
 
 RequestExecutionLevel admin
 
@@ -52,16 +54,35 @@ Section "MTL program files (required)" SectionMain
   File /oname=MTL.exe ..\mtl\main.exe
 SectionEnd
 
-Section "MTL original source"
-  SectionIn 1 2
+Section "MTL original source" SectionSource
+  SectionIn 2
   SetOutPath $INSTDIR
   File /r ..\original
 SectionEnd
 
+SubSection "Shortcuts" SectionShortcuts
+
+ Section "Create Start Menu shortcuts" SectionMenuLaunch
+  SectionIn 1 2 3
+  SetShellVarContext all 
+  StrCpy $0 $SMPROGRAMS
+  CreateDirectory "$0\MTL"
+  CreateShortCut "$0\MTL\MTL-CPP.lnk" "$INSTDIR\MTL.exe"
+  CreateShortCut "$0\MTL\Uninstall MTL-CPP.lnk" "$INSTDIR\uninstall.exe"
+ SectionEnd
+
+ Section "Create Desktop shortcut" SectionDesktopLaunch
+  SectionIn 1 2
+  SetShellVarContext current
+  CreateShortCut "$DESKTOP\MTL-CPP.lnk" "$INSTDIR\MTL.exe"
+ SectionEnd
+
+SubSectionEnd
+
 SubSection "Associate MTL files to MTL-CPP" SectionAssocs
 
  Section "Associate .mtl-cpp files to MTL-CPP"
-  SectionIn 1
+  SectionIn 1 2 3
   StrCpy $0 ".mtl-cpp"
   Call BackupAssoc
   WriteRegStr HKCR ".mtl-cpp" "" "MTL-CPP"
@@ -85,3 +106,10 @@ Function BackupAssoc
     WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\MTL-CPP\Backup" "$0" "$1"
   no_assoc:
 FunctionEnd
+
+!insertmacro MUI_FUNCTION_DESCRIPTION_BEGIN
+!insertmacro MUI_DESCRIPTION_TEXT ${SectionMain} "MTL-CPP minimum"
+!insertmacro MUI_DESCRIPTION_TEXT ${SectionSource} "MTL-CPP original source code"
+!insertmacro MUI_DESCRIPTION_TEXT ${SectionAssocs} "Use MTL-CPP as the default application for opening these types of files"
+!insertmacro MUI_DESCRIPTION_TEXT ${SectionShortcuts} "Create shortcuts to MTL-CPP in various folders"
+!insertmacro MUI_FUNCTION_DESCRIPTION_END
