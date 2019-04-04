@@ -1,5 +1,6 @@
 !include "MUI2.nsh"
 !include "x64.nsh"
+!include "FileAssociation.nsh"
 
 Unicode true
 
@@ -91,8 +92,8 @@ SectionEnd
 
 Section "MTL original source" SectionSource
   SectionIn 2
-  SetOutPath $INSTDIR
-  File /r ..\original
+  SetOutPath "$INSTDIR"
+  File /r "..\original"
 SectionEnd
 
 SubSection "Shortcuts" SectionShortcuts
@@ -102,33 +103,30 @@ SubSection "Shortcuts" SectionShortcuts
   SetShellVarContext all 
   StrCpy $0 $SMPROGRAMS
   CreateDirectory "$0\MTL"
-  CreateShortCut "$0\MTL\MTL-CPP.lnk" "$INSTDIR\MTL.exe"
-  CreateShortCut "$0\MTL\Uninstall MTL-CPP.lnk" "$INSTDIR\uninstall.exe"
+  CreateShortCut "$0\MTL\${ProductName}.lnk" "$INSTDIR\MTL.exe"
+  CreateShortCut "$0\MTL\Uninstall ${ProductName}.lnk" "$INSTDIR\uninstall.exe"
  SectionEnd
 
  Section "Create Desktop shortcut" SectionDesktopLaunch
   SectionIn 1 2
   SetShellVarContext current
-  CreateShortCut "$DESKTOP\MTL-CPP.lnk" "$INSTDIR\MTL.exe"
+  CreateShortCut "$DESKTOP\${ProductName}.lnk" "$INSTDIR\MTL.exe"
  SectionEnd
 
 SubSectionEnd
 
-SubSection "Associate MTL files to MTL-CPP" SectionAssocs
+SubSection "Associate ${ProductName} related files to ${ProductName}" SectionAssocs
 
- Section "Associate .mtl-cpp files to MTL-CPP"
+ Section "Associate .${ProductName} files to ${ProductName}"
   SectionIn 1 2 3
-  WriteRegStr HKCR ".mtl-cpp" "" "${ProductName}"
-  WriteRegStr HKCR "${ProductName}" "" "${ProductName} Source File"
-  WriteRegStr HKCR "${ProductName}\DefaultIcon" "" "$INSTDIR\MTL.exe,1"
-  WriteRegStr HKCR "${ProductName}\shell\open\command" "" '"$INSTDIR\MTL.exe" "%1"'
-  WriteRegStr HKCR "${ProductName}\shell\print\command" "" '"$INSTDIR\MTL.exe" -p "%1"'
+    ${registerExtension} "$INSTDIR\MTL.exe" ".${ProductName}" "${ProductName} file"
+    ${unregisterExtension} ".${ProductName}" "${ProductName} file"
  SectionEnd
 
 SubSectionEnd
 
-UninstallText "This program will uninstall MTL-CPP, continue?"
 ShowUninstDetails show
 
 Section Uninstall
+  ${unregisterExtension} ".${ProductName}" "${ProductName} file"
 SectionEnd
