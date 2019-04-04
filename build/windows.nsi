@@ -3,11 +3,14 @@
 
 Unicode true
 
-Name "MTL-CPP installer"
-OutFile "output\x64.exe"
-Caption "MTL-CPP installer"
-; LicenseData "LICENSE.txt"
-InstallDir $PROGRAMFILES\MTL\cpp
+!define ProductVersion "0.0.1"
+!define ProductName "MTL-CPP"
+
+Name "${ProductName} ${ProductVersion} installer"
+OutFile "output\${ProductName}_${ProductVersion}.exe"
+Caption "${ProductName} ${ProductVersion} installer"
+LicenseData "../LICENSE.txt"
+InstallDir "$PROGRAMFILES\MTL\cpp"
 
 ShowInstDetails show
 AutoCloseWindow false
@@ -21,35 +24,56 @@ XPStyle on
 InstType "Recommended"
 InstType "Full"
 InstType "Minimal"
+!insertmacro MUI_FUNCTION_DESCRIPTION_BEGIN
+!insertmacro MUI_DESCRIPTION_TEXT ${SectionMain} "MTL-CPP minimal"
+!insertmacro MUI_DESCRIPTION_TEXT ${SectionSource} "MTL-CPP original source code"
+!insertmacro MUI_DESCRIPTION_TEXT ${SectionAssocs} "Use MTL-CPP as the default application for opening these types of files"
+!insertmacro MUI_DESCRIPTION_TEXT ${SectionShortcuts} "Create shortcuts to MTL-CPP in various folders"
+!insertmacro MUI_FUNCTION_DESCRIPTION_END
 
 RequestExecutionLevel admin
-
-!define ProductVersion "0.0.1"
 
 !define MUI_ICON "favicon.ico"
 !define MUI_UNICON "favicon.ico"
 !define MUI_ABORTWARNING
 !define MUI_LANGDLL_ALLLANGUAGES
-!define MUI_FINISHPAGE_RUN "$INSTDIR\MTL.exe"
-!define MUI_FINISHPAGE_RUN_CHECKED
-!define MUI_FINISHPAGE_RUN_TEXT "Run MTL-CPP"
-!define MUI_FINISHPAGE_NOREBOOTSUPPORT
 !define MUI_COMPONENTSPAGE_SMALLDESC
 
-Function finishpageaction
+!define MUI_FINISHPAGE_TITLE "Install ${ProductName} ${ProductVersion} successfully completed!$\n$\nYou can launch ${ProductName} and/or see README.txt"
+!define MUI_FINISHPAGE_TITLE_3LINES
+
+!define MUI_FINISHPAGE_NOREBOOTSUPPORT
+
+!define MUI_FINISHPAGE_RUN "$INSTDIR\MTL.exe"
+!define MUI_FINISHPAGE_RUN_CHECKED
+!define MUI_FINISHPAGE_RUN_TEXT "Run ${ProductName}"
+
+Function FinishpageAction
   ExecWait 'notepad $INSTDIR\README.txt'
 FunctionEnd
 !define MUI_FINISHPAGE_SHOWREADME
 !define MUI_FINISHPAGE_SHOWREADME_CHECKED
-!define MUI_FINISHPAGE_SHOWREADME_TEXT "ReadMe"
-!define MUI_FINISHPAGE_SHOWREADME_FUNCTION finishpageaction
-;!insertmacro MUI_PAGE_LICENSE "LICENSE.txt"
+!define MUI_FINISHPAGE_SHOWREADME_TEXT "Show README.txt"
+!define MUI_FINISHPAGE_SHOWREADME_FUNCTION FinishpageAction
+
+!define MUI_FINISHPAGE_LINK "You can visit ${ProductName} repository on GitHub"
+!define MUI_FINISHPAGE_LINK_LOCATION "https://github.com/mjy9088/${ProductName}"
+!define MUI_FINISHPAGE_LINK_COLOR 0000C0
+
+!insertmacro MUI_PAGE_WELCOME
+!insertmacro MUI_PAGE_LICENSE "../LICENSE.txt"
 !insertmacro MUI_PAGE_COMPONENTS
 !insertmacro MUI_PAGE_DIRECTORY
 !insertmacro MUI_PAGE_INSTFILES
 !insertmacro MUI_PAGE_FINISH
+
+!insertmacro MUI_UNPAGE_WELCOME
 !insertmacro MUI_UNPAGE_CONFIRM
+!insertmacro MUI_UNPAGE_LICENSE "../LICENSE.txt"
+!insertmacro MUI_UNPAGE_COMPONENTS
+!insertmacro MUI_UNPAGE_DIRECTORY
 !insertmacro MUI_UNPAGE_INSTFILES
+!insertmacro MUI_UNPAGE_FINISH
 
 Page directory
 Page instfiles
@@ -120,10 +144,3 @@ Function BackupAssoc
     WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\MTL-CPP\Backup" "$0" "$1"
   no_assoc:
 FunctionEnd
-
-!insertmacro MUI_FUNCTION_DESCRIPTION_BEGIN
-!insertmacro MUI_DESCRIPTION_TEXT ${SectionMain} "MTL-CPP minimum"
-!insertmacro MUI_DESCRIPTION_TEXT ${SectionSource} "MTL-CPP original source code"
-!insertmacro MUI_DESCRIPTION_TEXT ${SectionAssocs} "Use MTL-CPP as the default application for opening these types of files"
-!insertmacro MUI_DESCRIPTION_TEXT ${SectionShortcuts} "Create shortcuts to MTL-CPP in various folders"
-!insertmacro MUI_FUNCTION_DESCRIPTION_END
