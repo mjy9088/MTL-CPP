@@ -1,6 +1,5 @@
 !include "MUI2.nsh"
 !include "x64.nsh"
-!include "FileAssociation.nsh"
 
 Unicode true
 
@@ -119,8 +118,10 @@ SubSection "Associate ${ProductName} related files to ${ProductName}" SectionAss
 
  Section "Associate .${ProductName} files to ${ProductName}"
   SectionIn 1 2 3
-    ${registerExtension} "$INSTDIR\MTL.exe" ".${ProductName}" "${ProductName} file"
-    ${unregisterExtension} ".${ProductName}" "${ProductName} file"
+  WriteRegStr HKCR ".${ProductName}" "" "${ProductName}"
+  WriteRegStr HKCR "${ProductName}" "" "${ProductName} Source File"
+  WriteRegStr HKCR "${ProductName}\DefaultIcon" "" "$INSTDIR\MTL.exe,1"
+  WriteRegStr HKCR "${ProductName}\shell\open\command" "" '"$INSTDIR\MTL.exe" "%1"'
  SectionEnd
 
 SubSectionEnd
@@ -128,5 +129,4 @@ SubSectionEnd
 ShowUninstDetails show
 
 Section Uninstall
-  ${unregisterExtension} ".${ProductName}" "${ProductName} file"
 SectionEnd
