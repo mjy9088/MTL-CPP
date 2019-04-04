@@ -25,10 +25,10 @@ InstType "Recommended"
 InstType "Full"
 InstType "Minimal"
 !insertmacro MUI_FUNCTION_DESCRIPTION_BEGIN
-!insertmacro MUI_DESCRIPTION_TEXT ${SectionMain} "MTL-CPP minimal"
-!insertmacro MUI_DESCRIPTION_TEXT ${SectionSource} "MTL-CPP original source code"
-!insertmacro MUI_DESCRIPTION_TEXT ${SectionAssocs} "Use MTL-CPP as the default application for opening these types of files"
-!insertmacro MUI_DESCRIPTION_TEXT ${SectionShortcuts} "Create shortcuts to MTL-CPP in various folders"
+!insertmacro MUI_DESCRIPTION_TEXT ${SectionMain} "${ProductName} minimal"
+!insertmacro MUI_DESCRIPTION_TEXT ${SectionSource} "${ProductName} original source code"
+!insertmacro MUI_DESCRIPTION_TEXT ${SectionAssocs} "Use ${ProductName} as the default application for opening these types of files"
+!insertmacro MUI_DESCRIPTION_TEXT ${SectionShortcuts} "Create shortcuts to ${ProductName} in various folders"
 !insertmacro MUI_FUNCTION_DESCRIPTION_END
 
 RequestExecutionLevel admin
@@ -36,10 +36,10 @@ RequestExecutionLevel admin
 !define MUI_ICON "favicon.ico"
 !define MUI_UNICON "favicon.ico"
 !define MUI_ABORTWARNING
-!define MUI_LANGDLL_ALLLANGUAGES
+;!define MUI_LANGDLL_ALLLANGUAGES
 !define MUI_COMPONENTSPAGE_SMALLDESC
 
-!define MUI_FINISHPAGE_TITLE "Install ${ProductName} ${ProductVersion} successfully completed!$\n$\nYou can launch ${ProductName} and/or see README.txt"
+!define MUI_FINISHPAGE_TITLE "Install ${ProductName} ${ProductVersion} successfully completed!$\r$\n$\r$\nYou can launch ${ProductName} and/or see README.txt"
 !define MUI_FINISHPAGE_TITLE_3LINES
 
 !define MUI_FINISHPAGE_NOREBOOTSUPPORT
@@ -49,7 +49,7 @@ RequestExecutionLevel admin
 !define MUI_FINISHPAGE_RUN_TEXT "Run ${ProductName}"
 
 Function FinishpageAction
-  ExecWait 'notepad $INSTDIR\README.txt'
+  ExecWait "notepad $INSTDIR\README.txt"
 FunctionEnd
 !define MUI_FINISHPAGE_SHOWREADME
 !define MUI_FINISHPAGE_SHOWREADME_CHECKED
@@ -75,9 +75,6 @@ FunctionEnd
 !insertmacro MUI_UNPAGE_INSTFILES
 !insertmacro MUI_UNPAGE_FINISH
 
-Page directory
-Page instfiles
-
 Section "MTL program files (required)" SectionMain
   SectionIn 1 2 3 RO
   SetOutPath $INSTDIR
@@ -88,7 +85,7 @@ Section "MTL program files (required)" SectionMain
   WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\MTL-CPP" "DisplayIcon" "$INSTDIR\MTL.exe"
   WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\MTL-CPP" "Publisher" "mjy9088"
   File "favicon.ico"
-  ;File "LICENSE.txt"
+  File "..\LICENSE.txt"
   File /oname=MTL.exe ..\mtl\main.exe
 SectionEnd
 
