@@ -103,11 +103,11 @@ Section "MTL program files (required)" SectionMain
   SectionIn 1 2 3 RO
   SetOutPath $INSTDIR
   WriteUninstaller "$INSTDIR\uninstall.exe"
-  WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\MTL-CPP" "DisplayName" "${ProductName}"
-  WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\MTL-CPP" "UninstallString" "$INSTDIR\uninstall.exe"
-  WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\MTL-CPP" "DisplayVersion" "0.0.1"
-  WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\MTL-CPP" "DisplayIcon" "$INSTDIR\MTL.exe"
-  WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\MTL-CPP" "Publisher" "mjy9088"
+  WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\${ProductName}" "DisplayName" "${ProductName}"
+  WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\${ProductName}" "UninstallString" "$INSTDIR\uninstall.exe"
+  WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\${ProductName}" "DisplayVersion" "0.0.1"
+  WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\${ProductName}" "DisplayIcon" "$INSTDIR\MTL.exe"
+  WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\${ProductName}" "Publisher" "mjy9088"
   File "favicon.ico"
   File "..\LICENSE.txt"
   File /oname=MTL.exe ..\mtl\main.exe
@@ -153,4 +153,14 @@ SubSectionEnd
 ShowUninstDetails show
 
 Section Uninstall
+  DeleteRegValue HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\${ProductName}" "DisplayName"
+  DeleteRegValue HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\${ProductName}" "UninstallString"
+  DeleteRegValue HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\${ProductName}" "DisplayVersion"
+  DeleteRegValue HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\${ProductName}" "DisplayIcon"
+  DeleteRegValue HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\${ProductName}" "Publisher"
+
+  DeleteRegValue HKCR ".${ProductName}" ""
+  DeleteRegValue HKCR "${ProductName}" ""
+  DeleteRegValue HKCR "${ProductName}\DefaultIcon" ""
+  DeleteRegValue HKCR "${ProductName}\shell\open\command" ""
 SectionEnd
