@@ -49,7 +49,7 @@ RequestExecutionLevel admin
 !define MUI_FINISHPAGE_RUN_TEXT "Run ${ProductName}"
 
 Function FinishpageAction
-  ExecWait "notepad $INSTDIR\README.txt"
+  Exec "notepad $INSTDIR\README.txt"
 FunctionEnd
 !define MUI_FINISHPAGE_SHOWREADME
 !define MUI_FINISHPAGE_SHOWREADME_CHECKED
