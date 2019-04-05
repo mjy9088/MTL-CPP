@@ -122,12 +122,13 @@ SectionEnd
 SubSection "Shortcuts" SectionShortcuts
 
  Section "Create Start Menu shortcuts" SectionMenuLaunch
+
   SectionIn 1 2 3
-  SetShellVarContext all 
-  StrCpy $0 $SMPROGRAMS
-  CreateDirectory "$0\MTL"
-  CreateShortCut "$0\MTL\${ProductName}.lnk" "$INSTDIR\MTL.exe"
-  CreateShortCut "$0\MTL\Uninstall ${ProductName}.lnk" "$INSTDIR\uninstall.exe"
+  SetShellVarContext all
+  CreateDirectory "$SMPROGRAMS\MTL"
+  CreateShortCut "$SMPROGRAMS\MTL\${ProductName}.lnk" "$INSTDIR\MTL.exe"
+  CreateShortCut "$SMPROGRAMS\MTL\Uninstall ${ProductName}.lnk" "$INSTDIR\uninstall.exe"
+
  SectionEnd
 
  Section "Create Desktop shortcut" SectionDesktopLaunch
@@ -153,6 +154,7 @@ SubSectionEnd
 ShowUninstDetails show
 
 Section Uninstall
+
   DeleteRegValue HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\${ProductName}" "DisplayName"
   DeleteRegValue HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\${ProductName}" "UninstallString"
   DeleteRegValue HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\${ProductName}" "DisplayVersion"
@@ -163,4 +165,12 @@ Section Uninstall
   DeleteRegValue HKCR "${ProductName}" ""
   DeleteRegValue HKCR "${ProductName}\DefaultIcon" ""
   DeleteRegValue HKCR "${ProductName}\shell\open\command" ""
+
+  SetShellVarContext all
+  Delete "$SMPROGRAMS\MTL\${ProductName}.lnk"
+  Delete "$SMPROGRAMS\MTL\Uninstall ${ProductName}.lnk"
+  RMDir "$SMPROGRAMS\MTL"
+  RMDir /r "$INSTDIR"
+  Delete "$DESKTOP\${ProductName}.lnk"
+
 SectionEnd
