@@ -60,6 +60,8 @@ FunctionEnd
 !define MUI_FINISHPAGE_LINK_LOCATION "https://github.com/mjy9088/${ProductName}"
 !define MUI_FINISHPAGE_LINK_COLOR 0000C0
 
+!insertmacro MUI_LANGUAGE "English"
+
 !insertmacro MUI_PAGE_WELCOME
 !insertmacro MUI_PAGE_LICENSE "../LICENSE.txt"
 !insertmacro MUI_PAGE_COMPONENTS
@@ -75,11 +77,33 @@ FunctionEnd
 !insertmacro MUI_UNPAGE_INSTFILES
 !insertmacro MUI_UNPAGE_FINISH
 
+Function .onInit
+
+  ReadRegStr $R0 HKLM \
+  "Software\Microsoft\Windows\CurrentVersion\Uninstall\${ProductName}" \
+  "UninstallString"
+  StrCmp $R0 "" done
+  MessageBox MB_OKCANCEL|MB_ICONEXCLAMATION \
+  "${ProductName} is already installed. $\n$\nClick `OK` to remove the \
+  previous version or `Cancel` to cancel this upgrade." \
+  IDOK uninst
+  Abort
+
+ uninst:
+  ClearErrors
+  ExecWait '$R0 _?=$INSTDIR'
+  IfErrors no_remove_uninstaller done
+  no_remove_uninstaller:
+
+ done:
+
+FunctionEnd
+
 Section "MTL program files (required)" SectionMain
   SectionIn 1 2 3 RO
   SetOutPath $INSTDIR
   WriteUninstaller "$INSTDIR\uninstall.exe"
-  WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\MTL-CPP" "DisplayName" "MTL-CPP"
+  WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\MTL-CPP" "DisplayName" "${ProductName}"
   WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\MTL-CPP" "UninstallString" "$INSTDIR\uninstall.exe"
   WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\MTL-CPP" "DisplayVersion" "0.0.1"
   WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\MTL-CPP" "DisplayIcon" "$INSTDIR\MTL.exe"
