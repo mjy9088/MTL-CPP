@@ -5,7 +5,7 @@
 
 namespace MTL
 {
-	template<typename T>
+	template<typename T, bool autogrow = true>
 	class ArrayList : public List<T>
 	{
 	private:

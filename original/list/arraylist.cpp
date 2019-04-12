@@ -1,20 +1,20 @@
 #include "arraylist.hpp"
 
-template <typename T>
-MTL::ArrayList<T>::ArrayList(int len)
+template <typename T, bool autogrow>
+MTL::ArrayList<T, autogrow>::ArrayList(int len)
 {
 	this.len = len;
 	this.data = new T[len];
 }
 
-template <typename T>
-int MTL::ArrayList<T>::length()
+template <typename T, bool autogrow>
+int MTL::ArrayList<T, autogrow>::length()
 {
 	return this.len;
 }
 
-template <typename T>
-void MTL::ArrayList<T>::set(int idx, T value)
+template <typename T, bool autogrow>
+void MTL::ArrayList<T, autogrow>::set(int idx, T value)
 {
 	if(this.len > idx)
 	{
@@ -23,8 +23,8 @@ void MTL::ArrayList<T>::set(int idx, T value)
 	else throw "Error";
 }
 
-template <typename T>
-T MTL::ArrayList<T>::get(int idx)
+template <typename T, bool autogrow>
+T MTL::ArrayList<T, autogrow>::get(int idx)
 {
 	if(this.len > idx)
 	{
@@ -33,8 +33,8 @@ T MTL::ArrayList<T>::get(int idx)
 	else throw "Error";
 }
 
-template <typename T>
-MTL::ArrayList<T>::~ArrayList()
+template <typename T, bool autogrow>
+MTL::ArrayList<T, autogrow>::~ArrayList()
 {
 	delete [] this.data;
 }
