@@ -12,6 +12,8 @@ namespace MTL
 		virtual size_t length();
 		virtual void set(int idx, T value);
 		virtual T get(int idx);
+		virtual size_t append(T value);
+		virtual bool iterate(bool (*func)(void *value));
 	};
 }
 
