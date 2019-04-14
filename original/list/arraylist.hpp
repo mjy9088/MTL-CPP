@@ -9,14 +9,14 @@ namespace MTL
 	class ArrayList : public List<T>
 	{
 	private:
-		int len;
+		size_t len;
 		T *data;
 	public:
-		ArrayList(int len);
+		ArrayList(size_t len);
 		~ArrayList();
-		int length();
-		void set(int idx, T value);
-		virtual T get(int idx);
+		size_t length();
+		void set(size_t idx, T value);
+		virtual T get(size_t idx);
 	};
 }
 

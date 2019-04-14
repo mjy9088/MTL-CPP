@@ -1,20 +1,22 @@
+#include <cstddef>
+
 #include "arraylist.hpp"
 
 template <typename T, bool autogrow>
-MTL::ArrayList<T, autogrow>::ArrayList(int len)
+MTL::ArrayList<T, autogrow>::ArrayList(size_t len)
 {
 	this.len = len;
 	this.data = new T[len];
 }
 
 template <typename T, bool autogrow>
-int MTL::ArrayList<T, autogrow>::length()
+size_t MTL::ArrayList<T, autogrow>::length()
 {
 	return this.len;
 }
 
 template <typename T, bool autogrow>
-void MTL::ArrayList<T, autogrow>::set(int idx, T value)
+void MTL::ArrayList<T, autogrow>::set(size_t idx, T value)
 {
 	if(this.len > idx)
 	{
@@ -24,7 +26,7 @@ void MTL::ArrayList<T, autogrow>::set(int idx, T value)
 }
 
 template <typename T, bool autogrow>
-T MTL::ArrayList<T, autogrow>::get(int idx)
+T MTL::ArrayList<T, autogrow>::get(size_t idx)
 {
 	if(this.len > idx)
 	{

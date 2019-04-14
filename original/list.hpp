@@ -9,7 +9,7 @@ namespace MTL
 	class List
 	{
 	public:
-		virtual int length();
+		virtual size_t length();
 		virtual void set(int idx, T value);
 		virtual T get(int idx);
 	};

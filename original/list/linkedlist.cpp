@@ -1,3 +1,5 @@
+#include <cstddef>
+
 #include "linkedlist.hpp"
 
 template <typename T>
@@ -15,13 +17,13 @@ MTL::LinkedList<T>::LinkedList()
 }
 
 template <typename T>
-int MTL::LinkedList<T>::length()
+size_t MTL::LinkedList<T>::length()
 {
 	return this.len;
 }
 
 template <typename T>
-void MTL::LinkedList<T>::set(int idx, T value)
+void MTL::LinkedList<T>::set(size_t idx, T value)
 {
 	if(idx > this.length)
 	{
@@ -30,7 +32,7 @@ void MTL::LinkedList<T>::set(int idx, T value)
 	else if(idx < this.length)
 	{
 		MTL::LinkedList<T>::Node *tmp = this.head;
-		for(int i = 0; i < idx; i++)
+		for(size_t i = 0; i < idx; i++)
 		{
 			tmp = tmp->next;
 		}
@@ -39,7 +41,7 @@ void MTL::LinkedList<T>::set(int idx, T value)
 	else
 	{
 		MTL::LinkedList<T>::Node tmp = this.head;
-		for(int i = 1; i < idx; i++)
+		for(size_t i = 1; i < idx; i++)
 		{
 			tmp = tmp->next;
 		}
@@ -50,12 +52,12 @@ void MTL::LinkedList<T>::set(int idx, T value)
 }
 
 template <typename T>
-T MTL::LinkedList<T>::get(int idx)
+T MTL::LinkedList<T>::get(size_t idx)
 {
 	if(idx < this.length)
 	{
 		MTL::LinkedList<T>::Node tmp = this.head;
-		for(int i = 1; i < idx; i++)
+		for(size_t i = 1; i < idx; i++)
 		{
 			tmp = tmp->next;
 		}

@@ -10,14 +10,14 @@ namespace MTL
 	{
 	private:
 		class Node;
-		int len;
+		size_t len;
 		LinkedList<T>::Node *head;
 	public:
 		LinkedList();
 		~LinkedList();
-		int length();
-		void set(int idx, T value);
-		virtual T get(int idx);
+		size_t length();
+		void set(size_t idx, T value);
+		virtual T get(size_t idx);
 	};
 }
 
