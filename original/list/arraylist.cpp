@@ -95,11 +95,11 @@ size_t MTL::ArrayList<T, autogrow>::append(T value)
 }
 
 template <typename T, bool autogrow>
-bool MTL::ArrayList<T, autogrow>::iterate(bool (*func)(void *value))
+bool MTL::ArrayList<T, autogrow>::iterate(bool (*func)(T &value))
 {
 	for(int i = 0; i < this.length; i++)
 	{
-		if(func(&this.data[i]))
+		if(func(this.data[i]))
 		{
 			return true;
 		}
