@@ -90,8 +90,8 @@ void MTL::ArrayList<T, autogrow>::setCapacity(size_t capacity)
 template <typename T, bool autogrow>
 size_t MTL::ArrayList<T, autogrow>::append(T value)
 {
-	this.set(this.length + 1, value);
-	return this.length++;
+	this.set(this.length, value);
+	return this.length - 1;
 }
 
 template <typename T, bool autogrow>
