@@ -13,7 +13,8 @@ template <typename T>
 MTL::LinkedList<T>::LinkedList()
 {
 	this.len = 0;
-	this.head = 0;
+	this.head = NULL;
+	this.tail = NULL;
 }
 
 template <typename T>
@@ -25,11 +26,7 @@ size_t MTL::LinkedList<T>::length()
 template <typename T>
 void MTL::LinkedList<T>::set(size_t idx, T value)
 {
-	if(idx > this.length)
-	{
-		throw "Error";
-	}
-	else if(idx < this.length)
+	if(idx < this.length)
 	{
 		MTL::LinkedList<T>::Node *tmp = this.head;
 		for(size_t i = 0; i < idx; i++)
@@ -40,14 +37,7 @@ void MTL::LinkedList<T>::set(size_t idx, T value)
 	}
 	else
 	{
-		MTL::LinkedList<T>::Node tmp = this.head;
-		for(size_t i = 1; i < idx; i++)
-		{
-			tmp = tmp->next;
-		}
-		tmp = tmp->next = new MTL::LinkedList<T>::Node();
-		tmp->next = 0;
-		tmp->value = value;
+		throw "Error";
 	}
 }
 
@@ -77,5 +67,35 @@ MTL::LinkedList<T>::~LinkedList()
 		tmp = temp->next;
 	}
 	delete tmp;
+}
+
+template <typename T>
+size_t MTL::LinkedList<T>::append(T value)
+{
+	MTL::LinkedList<T>::Node *tmp = new MTL::LinkedList<T>::Node();
+	tmp->next = NULL;
+	tmp->value = value;
+	if(!this.tail)
+	{
+		this.tail = this.head = tmp;
+	}
+	else
+	{
+		this.tail = this.tail->next = tmp;
+	}
+	return this.length++;
+}
+
+template <typename T>
+bool MTL::LinkedList<T>::iterate(bool (*func)(T &value))
+{
+	for(MTL::LinkedList<T>::Node *tmp = this.head; tmp; tmp = tmp->next)
+	{
+		if(func(tmp->value))
+		{
+			return true;
+		}
+	}
+	return false;
 }
 
