@@ -87,3 +87,23 @@ void MTL::ArrayList<T, autogrow>::setCapacity(size_t capacity)
 	this.data = buf;
 }
 
+template <typename T, bool autogrow>
+size_t MTL::ArrayList<T, autogrow>::append(T value)
+{
+	this.set(this.length + 1, value);
+	return this.length++;
+}
+
+template <typename T, bool autogrow>
+bool MTL::ArrayList<T, autogrow>::iterate(bool (*func)(void *value))
+{
+	for(int i = 0; i < this.length; i++)
+	{
+		if(func(&this.data[i]))
+		{
+			return true;
+		}
+	}
+	return false;
+}
+

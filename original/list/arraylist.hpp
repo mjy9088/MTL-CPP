@@ -20,6 +20,8 @@ namespace MTL
 		size_t getCapacity();
 		void increaseCapacity();
 		void setCapacity(size_t capacity);
+		size_t append(T value);
+		bool iterate(bool (*func)(void *value));
 	};
 }
 
