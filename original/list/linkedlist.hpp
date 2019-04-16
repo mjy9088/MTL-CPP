@@ -20,6 +20,7 @@ namespace MTL
 		virtual T get(size_t idx);
 		size_t append(T value);
 		bool iterate(bool (*func)(T &value));
+		void prepend(T value);
 	};
 }
 

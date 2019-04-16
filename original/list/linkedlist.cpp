@@ -99,3 +99,21 @@ bool MTL::LinkedList<T>::iterate(bool (*func)(T &value))
 	return false;
 }
 
+template <typename T>
+void MTL::LinkedList<T>::prepend(T value)
+{
+	MTL::LinkedList<T>::Node *tmp = new MTL::LinkedList<T>::Node();
+	tmp->next = this.head;
+	tmp->value = value;
+	if(!this.head)
+	{
+		this.head = this.tail = tmp;
+	}
+	else
+	{
+		tmp->next = this.head;
+		this.head = tmp->next;
+	}
+	return this.length++;
+}
+
