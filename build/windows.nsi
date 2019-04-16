@@ -77,6 +77,18 @@ FunctionEnd
 !insertmacro MUI_UNPAGE_INSTFILES
 !insertmacro MUI_UNPAGE_FINISH
 
+VIProductVersion "0.0.0.0"
+VIAddVersionKey "ProductName" "${ProductName}"
+VIAddVersionKey "Comments" "${ProductName} : My Template Library"
+VIAddVersionKey "CompanyName" "(none)"
+VIAddVersionKey "LegalCopyright" "©? Copyleft!"
+VIAddVersionKey "LegalTrademarks" "${ProductName} is trademark of MTL project"
+VIAddVersionKey "FileDescription" "${ProductName} installer"
+VIAddVersionKey "FileVersion" "0.0"
+VIAddVersionKey "ProductVersion" "0.0"
+VIAddVersionKey "InternalName" "0.0"
+VIAddVersionKey "OriginalFilename" "${ProductName}.exe"
+
 Function .onInit
 
   ReadRegStr $R0 HKLM \
@@ -93,7 +105,9 @@ Function .onInit
   ClearErrors
   ExecWait '$R0 _?=$INSTDIR'
   IfErrors no_remove_uninstaller done
-  no_remove_uninstaller:
+
+ no_remove_uninstaller:
+  MessageBox MB_OK "Install overwrite" IDOK done
 
  done:
 
@@ -103,11 +117,19 @@ Section "MTL program files (required)" SectionMain
   SectionIn 1 2 3 RO
   SetOutPath $INSTDIR
   WriteUninstaller "$INSTDIR\uninstall.exe"
-  WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\${ProductName}" "DisplayName" "${ProductName}"
   WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\${ProductName}" "UninstallString" "$INSTDIR\uninstall.exe"
+  WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\${ProductName}" "ModifyPath" "$INSTDIR\uninstall.exe"
+  WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\${ProductName}" "DisplayName" "${ProductName}"
   WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\${ProductName}" "DisplayVersion" "0.0.1"
-  WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\${ProductName}" "DisplayIcon" "$INSTDIR\MTL.exe"
+  WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\${ProductName}" "DisplayIcon" "$INSTDIR\uninstall.exe"
   WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\${ProductName}" "Publisher" "mjy9088"
+  WriteRegDWORD HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\${ProductName}" "NoElevateOnModify" 0
+  WriteRegDWORD HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\${ProductName}" "NoModify" 0
+  WriteRegDWORD HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\${ProductName}" "NoRemove" 0
+  WriteRegDWORD HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\${ProductName}" "NoRepair" 0
+  WriteRegDWORD HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\${ProductName}" "VersionMajor" 0
+  WriteRegDWORD HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\${ProductName}" "VersionMinor" 0
+
   File "favicon.ico"
   File "..\LICENSE.txt"
   File /oname=MTL.exe ..\mtl\main.exe
@@ -155,11 +177,18 @@ ShowUninstDetails show
 
 Section Uninstall
 
-  DeleteRegValue HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\${ProductName}" "DisplayName"
   DeleteRegValue HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\${ProductName}" "UninstallString"
+  DeleteRegValue HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\${ProductName}" "ModifyPath"
+  DeleteRegValue HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\${ProductName}" "DisplayName"
   DeleteRegValue HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\${ProductName}" "DisplayVersion"
   DeleteRegValue HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\${ProductName}" "DisplayIcon"
   DeleteRegValue HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\${ProductName}" "Publisher"
+  DeleteRegValue HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\${ProductName}" "NoElevateOnModify"
+  DeleteRegValue HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\${ProductName}" "NoModify"
+  DeleteRegValue HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\${ProductName}" "NoRemove"
+  DeleteRegValue HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\${ProductName}" "NoRepair"
+  DeleteRegValue HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\${ProductName}" "VersionMajor"
+  DeleteRegValue HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\${ProductName}" "VersionMinor"
 
   DeleteRegValue HKCR ".${ProductName}" ""
   DeleteRegValue HKCR "${ProductName}" ""
