@@ -38,7 +38,7 @@ void MTL::ArrayList<T, autogrow>::set(size_t idx, T value)
 		{
 			if(!autogrow)
 			{
-				throw "List is full!"
+				throw "List is full!";
 			}
 			this.increseCapacity();
 			this.data[this.length++] = value;
@@ -67,6 +67,26 @@ MTL::ArrayList<T, autogrow>::~ArrayList()
 }
 
 template <typename T, bool autogrow>
+size_t MTL::ArrayList<T, autogrow>::append(T value)
+{
+	this.set(this.length, value);
+	return this.length - 1;
+}
+
+template <typename T, bool autogrow>
+bool MTL::ArrayList<T, autogrow>::iterate(bool (*func)(T &value))
+{
+	for(int i = 0; i < this.length; i++)
+	{
+		if(func(this.data[i]))
+		{
+			return true;
+		}
+	}
+	return false;
+}
+
+template <typename T, bool autogrow>
 size_t MTL::ArrayList<T, autogrow>::getCapacity()
 {
 	return this.capacity;
@@ -89,25 +109,5 @@ void MTL::ArrayList<T, autogrow>::setCapacity(size_t capacity)
 	memcpy(buf, this.data, sizeof(T) * capacity);
 	delete [] this.data;
 	this.data = buf;
-}
-
-template <typename T, bool autogrow>
-size_t MTL::ArrayList<T, autogrow>::append(T value)
-{
-	this.set(this.length, value);
-	return this.length - 1;
-}
-
-template <typename T, bool autogrow>
-bool MTL::ArrayList<T, autogrow>::iterate(bool (*func)(T &value))
-{
-	for(int i = 0; i < this.length; i++)
-	{
-		if(func(this.data[i]))
-		{
-			return true;
-		}
-	}
-	return false;
 }
 
