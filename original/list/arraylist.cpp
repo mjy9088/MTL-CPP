@@ -36,6 +36,10 @@ void MTL::ArrayList<T, autogrow>::set(size_t idx, T value)
 	{
 		if(this.capacity == idx)
 		{
+			if(!autogrow)
+			{
+				throw "List is full!"
+			}
 			this.increseCapacity();
 			this.data[this.length++] = value;
 		}
